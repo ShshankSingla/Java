@@ -8,18 +8,37 @@ public class Demo {
         list.add(new Student("Rohan",103,93));
         list.add(new Student("Sonu",104,98));
 
+        //1
         // Collection.sort(list);
 
         // for(Student s : list){
         //     System.out.println(s.name +" , "+s.rollNo+" , "+s.marks);
         // }
 
-        Collection<Student>c1 = new SortByName();
-        Collection<Student>c2 = new SortByMarks();
-        Collection<Student>c3 = new SortByRollNo();
+
+        //2
+        // Comparator<Student>c1 = new SortByName();
+        // Comparator<Student>c2 = new SortByMarks();
+        // Comparator<Student>c3 = new SortByRollNo();
 
 
-        Collection.sort(list,c2 );
+        // Collections.sort(list,c1 );
+
+        // for(Student s : list){
+        //     System.out.println(s.name+", "+s.rollNo+", "+s.marks);
+        // }
+
+        //3 anonymous class 
+        Collections.sort(list, new Comparator<Student>(){
+            @Override
+            public int compare(Student s1, Student s2){
+                return s1.marks - s2.marks;
+            }
+        });
+
+        for(Student s : list){
+            System.out.println(s.name+", "+s.rollNo+", "+s.marks);
+        }
 
     }
 }
