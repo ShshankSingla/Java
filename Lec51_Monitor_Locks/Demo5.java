@@ -1,38 +1,53 @@
 public class Demo5 {
     public static void main(String[] args) {
-        
-        Test test = new Test();
+        Bank b1 = new Bank();
 
-        Thread t1 = new Thread(() -> test.m1());
+        // Thread t1 = new Thread(() -> b1.depoisit());
+        // Thread t2 = new Thread(() -> b1.withdraw());
 
-        Thread t2 = new Thread(() -> test.m2());
+        Thread t1 = new Thread(() -> b1.m1());
+        Thread t2 = new Thread(() -> b1.m1());
 
         t1.start();
         t2.start();
     }
 }
 
-class Test {
-    synchronized void m1() {
-         System.out.println("m1 entered");
+class Bank {
+    
+    Object lock1 = new Object();
+    Object lock2 = new Object();
 
-        try {
-            Thread.sleep(2000);
+    void m1() {
+        synchronized(new Object()) { // useless , now every thread can enter simultaneously with a new lock because every time thread came , a new obj will create
+            System.out.println(Thread.currentThread().getName() + " Entered m1");
+
+            try {
+                Thread.sleep(2000);
+            }
+            catch(Exception e) {}
+
+            System.out.println(Thread.currentThread().getName() + " Exiting m1");
         }
-        catch(Exception e) {};
-
-        System.out.println("m1 exit");
     }
 
-    synchronized void m2() {
-        System.out.println("m2 entered");
-
-        try {
-            Thread.sleep(2000);
+    void depoisit() {
+        synchronized(lock1) {
+            System.out.println("Deposit logic");
+            try {
+                Thread.sleep(2000);
+            }
+            catch(Exception e) {}
         }
-        catch(Exception e) {};
+    }
 
-        System.out.println("m2 exit");
-
+    void withdraw() {
+        synchronized(lock2) {
+            System.out.println("Withdraw logic");
+            try {
+                Thread.sleep(2000);
+            }
+            catch(Exception e) {}
+        }
     }
 }
